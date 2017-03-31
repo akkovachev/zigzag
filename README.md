@@ -1,2 +1,2 @@
 # zigzag
-Zig Zag Price Paser
+Zig Zag Price Parser
