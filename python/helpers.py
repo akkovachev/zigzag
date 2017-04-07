@@ -29,10 +29,11 @@ def generatePriceList(loopSoup):
     for city, shops in relationMap.items():
         tmpObject = {}
         for shop in shops:
-            price = loopSoup.select(
-                'section[rell="' + str(cityRelMap[city]) + '"] li[rell="' + str(relationMap[city][shop]) + '"] .price')[
-                0].get_text()
-            tmpObject[shop] = price
+            try:
+                price = loopSoup.select( 'section[rell="' + str(cityRelMap[city]) + '"] li[rell="' + str(relationMap[city][shop]) + '"] .price')[ 0].get_text()
+                tmpObject[shop] = price
+            except IndexError:
+                tmpObject[shop] = "Zarejdane"
 
         priceObject[city] = tmpObject
 
