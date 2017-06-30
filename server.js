@@ -13,8 +13,8 @@ var errors = {
 app.get('/', function(req,res) {
 	var commands = {
 		"/scrape" : "Will Scrape the prices",
-		"/prices" : "Will Return the Sraped Prices",
-		"/city/:city": "Will return prices for city"
+		"/prices" : "Will Return the Scraped Prices",
+		"/city/:city": "Will return price for city"
 	}
 	res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify(commands, null, 4))
@@ -35,7 +35,8 @@ app.get('/prices', function(req, res) {
  	 	  	
  	 	  	res.send(errors.NO_PRICE);
  	 	  } else {
-		  	res.send(data);
+ 	 	  	res.setHeader('Content-Type', 'application/json');
+		  	res.send(JSON.stringify(JSON.parse(data), null , 4));
  	 	  }
 
 	});
@@ -53,7 +54,7 @@ app.get('/city/:city', function(req, res) {
  	 	  if (err) {
  	 	  	res.send(errors.NO_PRICE);
  	 	  } else {
- 	 	  	var json = JSON.parse(data);
+ 	 	  	var json = JSON.parse(data).stores;
  	 	  	if(json[city]) {
  	 	  		res.send(JSON.stringify(json[city], null, 4) )
  	 	  	} else {
@@ -63,6 +64,11 @@ app.get('/city/:city', function(req, res) {
 
 	});
 })
+
+app.use(function (req, res) {
+    res.redirect('/');
+	
+});
 
 app.timeout = 0;
 app.listen('5000')
